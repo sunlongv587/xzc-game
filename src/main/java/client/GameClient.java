@@ -1,43 +1,24 @@
 package client;
 
-import javax.swing.JFrame;
-
-import server.OpeMsg;
-import server.PointBand;
-import server.ServerMain;
-
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-
 import api.GameServer;
 import api.Gamer;
+import server.OpeMsg;
 
-import javax.swing.JPanel;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.rmi.RemoteException;
 
-public class GameClient extends JFrame{
+public class GameClient extends JFrame {
 
 
     /**
      * 客户端信息
-     * */
+     */
     String my_name = "gamer";
     int my_gamerID = -1;
     String serverAddr;
@@ -48,15 +29,15 @@ public class GameClient extends JFrame{
 
     /**
      * 硬币数
-     * */
+     */
     static int me_coin = 4;
     static int left_coin = 4;
     static int right_coin = 4;
 
     /**
      * id和名字
-     * */
-    String left_name =	"player1";
+     */
+    String left_name = "player1";
     int left_gamerID = -1;
 
     String right_name = "player2";
@@ -64,62 +45,60 @@ public class GameClient extends JFrame{
 
     /**
      * 准备情况
-     * */
+     */
     int left_ready = 0;
     int right_ready = 0;
     int me_ready = 0;
 
     /**
      * 第几轮
-     * */
+     */
     int round = 0;
 
     /**
      * 当前手牌点数
-     * */
+     */
     int me_cardpoint = 0;
     int me_newPoint = 0;
 
 
     /**
      * 界面组件
-     * */
+     */
     JLabel[] roundLabel_ = new JLabel[7]; //第1....7回合
     JTextArea textArea;     //游戏规则
     JTextArea textHistory;  //历史记录
-    JButton leftPicBtn;		//左侧玩家头像
-    JButton rightPicBtn;	//右侧玩家头像
-    JButton mePicBtn;		//我的头像
-    JLabel leftLabel;		//左侧玩家名称
-    JLabel rightLabel;		//右侧玩家名称
-    JLabel meLabel;			//我的名称
-    JLabel leftCoinLabel;	//左侧硬币数量
-    JLabel rightCoinLabel;	//右侧硬币数量
-    JLabel meCoinLabel;		//我的硬币数量
-    JButton leftThrowBtn;	//左侧弃牌
-    JButton rightThrowBtn;	//右侧弃牌
-    JLabel leftStatusLabel;	//左侧状态（已准备/加入赌局/pass）
+    JButton leftPicBtn;        //左侧玩家头像
+    JButton rightPicBtn;    //右侧玩家头像
+    JButton mePicBtn;        //我的头像
+    JLabel leftLabel;        //左侧玩家名称
+    JLabel rightLabel;        //右侧玩家名称
+    JLabel meLabel;            //我的名称
+    JLabel leftCoinLabel;    //左侧硬币数量
+    JLabel rightCoinLabel;    //右侧硬币数量
+    JLabel meCoinLabel;        //我的硬币数量
+    JButton leftThrowBtn;    //左侧弃牌
+    JButton rightThrowBtn;    //右侧弃牌
+    JLabel leftStatusLabel;    //左侧状态（已准备/加入赌局/pass）
     JLabel rightStatusLabel;//右侧状态
-    JButton btnDrawBtn;		//摸牌按钮
-    JButton meThrowBtn;		//我的弃牌
-    JButton btnHandCard2;	//手牌2
-    JButton btnHandCard;	//手牌1
-    JButton btnOmiReq;		//请求新小早川牌按钮
-    JButton btnJoin;		//加入赌局按钮
-    JButton btnPass;		//PASS按钮
-    JButton omiCardBtn;		//中间的小早川牌
-    JButton btnReadyCancel;	//取消准备按钮
-    JButton btnReady;		//准备按钮
+    JButton btnDrawBtn;        //摸牌按钮
+    JButton meThrowBtn;        //我的弃牌
+    JButton btnHandCard2;    //手牌2
+    JButton btnHandCard;    //手牌1
+    JButton btnOmiReq;        //请求新小早川牌按钮
+    JButton btnJoin;        //加入赌局按钮
+    JButton btnPass;        //PASS按钮
+    JButton omiCardBtn;        //中间的小早川牌
+    JButton btnReadyCancel;    //取消准备按钮
+    JButton btnReady;        //准备按钮
     JButton leftOpenCardBtn;//左侧开牌图案
     JButton rightOpenCardBtn;//右侧开牌图案
-    JLabel opeLabel;		//要求玩家操作的文字
-
-
+    JLabel opeLabel;        //要求玩家操作的文字
 
 
     /**
      * 界面代码
-     * */
+     */
     public GameClient() {
 
         super("OmiCard-客户端");
@@ -231,17 +210,17 @@ public class GameClient extends JFrame{
 
         leftPicBtn = new JButton("");
         leftPicBtn.setBounds(15, 95, 123, 123);
-        leftPicBtn.setIcon(backAddress(20,123,123));
+        leftPicBtn.setIcon(backAddress(20, 123, 123));
         panel.add(leftPicBtn);
 
         rightPicBtn = new JButton("");
         rightPicBtn.setBounds(589, 95, 123, 123);
-        rightPicBtn.setIcon(backAddress(20,123,123));
+        rightPicBtn.setIcon(backAddress(20, 123, 123));
         panel.add(rightPicBtn);
 
         mePicBtn = new JButton("");
         mePicBtn.setBounds(15, 463, 123, 123);
-        mePicBtn.setIcon(backAddress(20,123,123));
+        mePicBtn.setIcon(backAddress(20, 123, 123));
         panel.add(mePicBtn);
 
         leftLabel = new JLabel("player2");
@@ -277,7 +256,7 @@ public class GameClient extends JFrame{
         rightThrowBtn = new JButton("");
         rightThrowBtn.setBounds(486, 130, 81, 117);
         rightThrowBtn.setVisible(false);
-        rightThrowBtn.addActionListener(new RightThrowBtnListener ());//？？？
+        rightThrowBtn.addActionListener(new RightThrowBtnListener());//？？？
         panel.add(rightThrowBtn);
 
         leftStatusLabel = new JLabel("\u72B6\u6001");
@@ -337,7 +316,7 @@ public class GameClient extends JFrame{
         omiCardBtn.setBounds(280, 151, 123, 163);
 
 
-        omiCardBtn.setIcon(backAddress(0,123,163));
+        omiCardBtn.setIcon(backAddress(0, 123, 163));
         panel.add(omiCardBtn);
 
         JLabel lblNewLabel_5 = new JLabel("\u5C0F\u65E9\u5DDD\u724C");
@@ -417,20 +396,23 @@ public class GameClient extends JFrame{
 
     /**
      * ActionListener
-     * */
-    class LeftThrowBtnListener implements ActionListener{//左侧弃牌*
+     */
+    class LeftThrowBtnListener implements ActionListener {//左侧弃牌*
+
         @Override
         public void actionPerformed(ActionEvent e) {
         }
     }
 
-    class RightThrowBtnListener implements ActionListener{//右侧弃牌*
+    class RightThrowBtnListener implements ActionListener {//右侧弃牌*
+
         @Override
         public void actionPerformed(ActionEvent e) {
         }
     }
 
-    class BtnDrawBtnListener implements ActionListener{//摸牌按钮*
+    class BtnDrawBtnListener implements ActionListener {//摸牌按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             btnOmiReq.setVisible(false);
@@ -446,10 +428,11 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnHandCard2Listener implements ActionListener{//手牌2*
+    class BtnHandCard2Listener implements ActionListener {//手牌2*
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            btnHandCard2.setVisible(false);		 //选择了手牌2 手牌1不可用 手牌2隐藏 是打算弃置手牌2
+            btnHandCard2.setVisible(false);         //选择了手牌2 手牌1不可用 手牌2隐藏 是打算弃置手牌2
 
             btnHandCard.setEnabled(false);
             try {
@@ -460,7 +443,7 @@ public class GameClient extends JFrame{
             }
             int t = me_newPoint;
             //meThrowBtn.setText(""+t);
-            meThrowBtn.setIcon(backAddress(t,81,117));
+            meThrowBtn.setIcon(backAddress(t, 81, 117));
             meThrowBtn.setVisible(true);
             meThrowBtn.setEnabled(false);
             me_cardpoint = me_newPoint; // 更新点数
@@ -469,7 +452,7 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnHandCardListener implements ActionListener{	//手牌1*
+    class BtnHandCardListener implements ActionListener {    //手牌1*
         @Override
         public void actionPerformed(ActionEvent e) {
             btnHandCard2.setEnabled(false);     //选择了手牌1 手牌2不可用 手牌1隐藏是打算弃置手牌1
@@ -481,14 +464,15 @@ public class GameClient extends JFrame{
                 e1.printStackTrace();
             }
             //meThrowBtn.setText(""+me_cardpoint);
-            meThrowBtn.setIcon(backAddress(me_cardpoint,81,117));
+            meThrowBtn.setIcon(backAddress(me_cardpoint, 81, 117));
             meThrowBtn.setVisible(true);
             meThrowBtn.setEnabled(false);
             opeLabel.setText("等待其他玩家...");
         }
     }
 
-    class BtnOmiReqListener implements ActionListener{//请求新小早川牌按钮*
+    class BtnOmiReqListener implements ActionListener {//请求新小早川牌按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             btnOmiReq.setVisible(false);
@@ -503,7 +487,8 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnJoinListener implements ActionListener{//加入赌局按钮*
+    class BtnJoinListener implements ActionListener {//加入赌局按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             opeLabel.setText("加入赌局...等待其他玩家...");
@@ -520,7 +505,8 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnPassListener implements ActionListener{//PASS按钮*
+    class BtnPassListener implements ActionListener {//PASS按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             opeLabel.setText("PASS...等待其他玩家...");
@@ -535,7 +521,8 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnReadyCancelListener implements ActionListener{//取消准备按钮*
+    class BtnReadyCancelListener implements ActionListener {//取消准备按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -550,7 +537,8 @@ public class GameClient extends JFrame{
         }
     }
 
-    class BtnReadyListener implements ActionListener{//准备按钮*
+    class BtnReadyListener implements ActionListener {//准备按钮*
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -566,12 +554,9 @@ public class GameClient extends JFrame{
     }
 
 
-
-
-
     /**
      * 主函数
-     * */
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -588,57 +573,56 @@ public class GameClient extends JFrame{
 
     /**
      * 服务器---->客户端
-     * */
+     */
     public void receiveEnter(String name, int gamerID) {
         System.out.println("now is receiveEnter() going");
-        textHistory.append("玩家"+name+"进入房间,id为"+gamerID+"\n");
+        textHistory.append("玩家" + name + "进入房间,id为" + gamerID + "\n");
         // TODO Auto-generated method stub
         /**
          * 1   2        0   1       2   0
          *   0            2           1
          *   三种情况
          * */
-        if(my_gamerID == 0) {
-            if(gamerID == 1) {
+        if (my_gamerID == 0) {
+            if (gamerID == 1) {
                 left_gamerID = gamerID;
                 left_name = name;
                 //textHistory.append("玩家"+name+"进入房间\n");
-            }else if(gamerID == 2) {
+            } else if (gamerID == 2) {
                 right_gamerID = gamerID;
                 right_name = name;
                 //textHistory.append("玩家"+name+"进入房间\n");
-            }else {
+            } else {
                 System.out.println("receiveEnter发送错误 at mygameID ==0");
             }
 
-        }else if(my_gamerID == 2) {
-            if(gamerID == 0) {
+        } else if (my_gamerID == 2) {
+            if (gamerID == 0) {
                 left_gamerID = gamerID;
                 left_name = name;
                 //textHistory.append("玩家"+name+"进入房间\n");
-            }else if(gamerID == 1) {
+            } else if (gamerID == 1) {
                 right_gamerID = gamerID;
                 right_name = name;
                 //textHistory.append("玩家"+name+"进入房间\n");
-            }else {
+            } else {
                 System.out.println("receiveEnter发送错误 at mygameID ==2");
             }
 
 
-
-        }else if(my_gamerID == 1) {
-            if(gamerID == 2) {
+        } else if (my_gamerID == 1) {
+            if (gamerID == 2) {
                 left_gamerID = gamerID;
                 left_name = name;
-            }else if(gamerID == 0) {
+            } else if (gamerID == 0) {
                 right_gamerID = gamerID;
                 right_name = name;
-            }else {
+            } else {
                 System.out.println("receiveEnter发送错误 at mygameID ==1");
             }
 
 
-        }else {
+        } else {
             System.out.println("receiveEnter发送错误 at home");
         }
 
@@ -648,17 +632,15 @@ public class GameClient extends JFrame{
     }
 
 
-
-
     public void receiveExit(String name, int gamerID) {
         System.out.println("now is receiveexit() going");
-        textHistory.append("玩家"+name+"离开房间\n");
+        textHistory.append("玩家" + name + "离开房间\n");
         // TODO Auto-generated method stub
-        if(left_gamerID == gamerID) {
+        if (left_gamerID == gamerID) {
             left_gamerID = -1;
             left_name = "player1";
             left_ready = 0;
-        }else if(right_gamerID == gamerID) {
+        } else if (right_gamerID == gamerID) {
             right_gamerID = -1;
             right_name = "player2";
             right_ready = 0;
@@ -671,12 +653,12 @@ public class GameClient extends JFrame{
 
     public void reReady(int gamerID, boolean readyready) {
         System.out.println("now is reready() going");
-        textHistory.append("第"+gamerID+"号玩家已准备\n");
+        textHistory.append("第" + gamerID + "号玩家已准备\n");
         // TODO Auto-generated method stub
-        if(left_gamerID == gamerID) {
-            left_ready = readyready?1:0;
-        }else if(right_gamerID == gamerID) {
-            right_ready = readyready?1:0;
+        if (left_gamerID == gamerID) {
+            left_ready = readyready ? 1 : 0;
+        } else if (right_gamerID == gamerID) {
+            right_ready = readyready ? 1 : 0;
         }
 
         refresh();
@@ -688,24 +670,24 @@ public class GameClient extends JFrame{
         /**
          * stage = 0 游戏开始 清空桌面 开始新的一轮 stage 1 一阶段 stage2 二阶段
          * */
-        if(stage == 0) {
+        if (stage == 0) {
 
-            if(round==7) {
+            if (round == 7) {
                 round = 0;
                 me_coin = 4;
                 left_coin = 4;
                 right_coin = 4;
-                for(int i = 0;i<7;i++) {
+                for (int i = 0; i < 7; i++) {
                     roundLabel_[i].setEnabled(false);
                 }
 
             }
 
-            textHistory.append("现在开始第"+(round+1)+"回合\n");
+            textHistory.append("现在开始第" + (round + 1) + "回合\n");
             roundLabel_[round++].setEnabled(true);
             leftStatusLabel.setText("");
             rightStatusLabel.setText("");
-            omiCardBtn.setIcon(backAddress(0,123,163)); // 小早川图案
+            omiCardBtn.setIcon(backAddress(0, 123, 163)); // 小早川图案
             opeLabel.setText("等待其他玩家...");
             btnReadyCancel.setVisible(false);
             btnReady.setVisible(false);
@@ -720,37 +702,32 @@ public class GameClient extends JFrame{
             rightOpenCardBtn.setVisible(false);
 
 
-
-
-        }else if(stage == 1) {
+        } else if (stage == 1) {
             btnOmiReq.setVisible(true);
             btnDrawBtn.setVisible(true);
             opeLabel.setText("到你了，请选择一项操作：");
 
 
-        }else if(stage == 2) {
+        } else if (stage == 2) {
             btnJoin.setVisible(true);
             btnPass.setVisible(true);
             opeLabel.setText("到你了，请选择是否用1枚硬币加入赌局:");
-            if(round==7) opeLabel.setText("到你了，请选择是否用2枚硬币加入赌局:");
-            if(me_coin>0) {
-                if(round!=7) {
+            if (round == 7) opeLabel.setText("到你了，请选择是否用2枚硬币加入赌局:");
+            if (me_coin > 0) {
+                if (round != 7) {
                     //当非最终局时 且硬币数量不为0
                     btnJoin.setEnabled(true);
-                }else if(me_coin>=2) {
+                } else if (me_coin >= 2) {
                     btnJoin.setEnabled(true);
-                }else {
+                } else {
                     btnJoin.setEnabled(false);
                 }
-            }else {
+            } else {
                 btnJoin.setEnabled(false);
             }
 
 
-
         }
-
-
 
 
     }
@@ -760,7 +737,7 @@ public class GameClient extends JFrame{
 
     }
 
-    public void reOpe2FromOther(int tgamerID,int inorout) {
+    public void reOpe2FromOther(int tgamerID, int inorout) {
         // TODO Auto-generated method stub
         //textHistory.append(msg.getTextmsg());
         //msg内容为谁加入了赌局
@@ -768,29 +745,29 @@ public class GameClient extends JFrame{
         //并加入状态“加入赌局/或PASS"
         int tid = tgamerID;
         int type = inorout;
-        if(type == 1) {//1加入赌局
-            if(tid == left_gamerID) {
+        if (type == 1) {//1加入赌局
+            if (tid == left_gamerID) {
                 left_coin--;
                 leftStatusLabel.setText("加入赌局");
-                textHistory.append("第"+tgamerID+"号玩家加入赌局\n");
-                if(round==7) left_coin--;//第7回合扣两个币
+                textHistory.append("第" + tgamerID + "号玩家加入赌局\n");
+                if (round == 7) left_coin--;//第7回合扣两个币
 
-            }else if(tid == right_gamerID) {
+            } else if (tid == right_gamerID) {
                 right_coin--;
-                textHistory.append("第"+tgamerID+"号玩家加入赌局\n");
+                textHistory.append("第" + tgamerID + "号玩家加入赌局\n");
                 rightStatusLabel.setText("加入赌局");
-                if(round == 7) right_coin--;
+                if (round == 7) right_coin--;
 
             }
             refreshCoins();
-        }else if(type == 2) {//2PASS
-            if(tid == left_gamerID) {
+        } else if (type == 2) {//2PASS
+            if (tid == left_gamerID) {
                 leftStatusLabel.setText("PASS");
-                textHistory.append("第"+tgamerID+"号玩家选择PASS\n");
+                textHistory.append("第" + tgamerID + "号玩家选择PASS\n");
 
-            }else if(tid == right_gamerID) {
+            } else if (tid == right_gamerID) {
                 rightStatusLabel.setText("PASS");
-                textHistory.append("第"+tgamerID+"号玩家选择PASS\n");
+                textHistory.append("第" + tgamerID + "号玩家选择PASS\n");
 
             }
         }
@@ -800,8 +777,8 @@ public class GameClient extends JFrame{
     public void theOmiCard(int cardPoints) {//更新小早川牌
         // TODO Auto-generated method stub
         //omiCardBtn.setText(""+cardPoints);
-        omiCardBtn.setIcon(backAddress(cardPoints,123,163));
-        textHistory.append("小早川牌为"+cardPoints+"\n");
+        omiCardBtn.setIcon(backAddress(cardPoints, 123, 163));
+        textHistory.append("小早川牌为" + cardPoints + "\n");
         //history代码
 
 
@@ -811,10 +788,10 @@ public class GameClient extends JFrame{
         // TODO Auto-generated method stub
         btnHandCard.setVisible(true);
         //btnHandCard.setText(""+cardPoints);
-        btnHandCard.setIcon(backAddress(cardPoints,93,142));
+        btnHandCard.setIcon(backAddress(cardPoints, 93, 142));
         btnHandCard.setEnabled(false);
         me_cardpoint = cardPoints;
-        textHistory.append("您收到的牌为"+cardPoints+"\n");
+        textHistory.append("您收到的牌为" + cardPoints + "\n");
 
         //history代码
     }
@@ -824,10 +801,10 @@ public class GameClient extends JFrame{
         me_newPoint = cardPoints;
         btnHandCard2.setVisible(true);
         //btnHandCard2.setText(""+cardPoints);
-        btnHandCard2.setIcon(backAddress(cardPoints,93,142));
+        btnHandCard2.setIcon(backAddress(cardPoints, 93, 142));
         btnHandCard.setEnabled(true);
         btnHandCard2.setEnabled(true);
-        textHistory.append("您收到的新牌为"+cardPoints+"\n");
+        textHistory.append("您收到的新牌为" + cardPoints + "\n");
 
 
     }
@@ -835,18 +812,18 @@ public class GameClient extends JFrame{
     public void reThrowCardFromOther(int gamerID, int cardPoints) {
         // TODO Auto-generated method stub
         //接受其他玩家的弃牌
-        textHistory.append("第"+gamerID+"号玩家弃置了"+cardPoints+"\n");
-        if(left_gamerID == gamerID) {
+        textHistory.append("第" + gamerID + "号玩家弃置了" + cardPoints + "\n");
+        if (left_gamerID == gamerID) {
             leftThrowBtn.setVisible(true);
             leftThrowBtn.setEnabled(false);
             //leftThrowBtn.setText(""+cardPoints);
-            leftThrowBtn.setIcon(backAddress(cardPoints,81,117));
+            leftThrowBtn.setIcon(backAddress(cardPoints, 81, 117));
 
-        }else if(right_gamerID == gamerID) {
+        } else if (right_gamerID == gamerID) {
             rightThrowBtn.setVisible(true);
             rightThrowBtn.setEnabled(false);
             //rightThrowBtn.setText(""+cardPoints);
-            rightThrowBtn.setIcon(backAddress(cardPoints,81,117));
+            rightThrowBtn.setIcon(backAddress(cardPoints, 81, 117));
         }
 
 
@@ -854,63 +831,63 @@ public class GameClient extends JFrame{
 
     public void reOpenCardFromOther(int gamerID, int cardPoints) {
         // TODO Auto-generated method stub
-        textHistory.append("开牌:第"+gamerID+"号玩家的底牌为"+cardPoints+"\n");
-        if(left_gamerID == gamerID) {
+        textHistory.append("开牌:第" + gamerID + "号玩家的底牌为" + cardPoints + "\n");
+        if (left_gamerID == gamerID) {
             leftPicBtn.setVisible(false);
             leftOpenCardBtn.setVisible(true);
             //leftOpenCardBtn.setText(""+cardPoints);
-            leftOpenCardBtn.setIcon(backAddress(cardPoints,81,117));
+            leftOpenCardBtn.setIcon(backAddress(cardPoints, 81, 117));
             opeLabel.setText("本回合游戏结束");
-        }else if(right_gamerID == gamerID) {
+        } else if (right_gamerID == gamerID) {
 
             rightPicBtn.setVisible(false);
             rightOpenCardBtn.setVisible(true);
             //rightOpenCardBtn.setText(""+cardPoints);
-            rightOpenCardBtn.setIcon(backAddress(cardPoints,81,117));
+            rightOpenCardBtn.setIcon(backAddress(cardPoints, 81, 117));
             opeLabel.setText("本回合游戏结束");
         }
 
 
     }
 
-    public void rePointFromServer(int winnerid,int money) {
+    public void rePointFromServer(int winnerid, int money) {
         // TODO Auto-generated method stub
         int winner = winnerid;
-        String winName = "您" ;
-        if(winner == left_gamerID) {
+        String winName = "您";
+        if (winner == left_gamerID) {
             winName = left_name;
-            left_coin+=money;
-        }else if(winner == right_gamerID) {
+            left_coin += money;
+        } else if (winner == right_gamerID) {
             winName = right_name;
-            right_coin+=money;
-        }else {
-            me_coin+=money;
+            right_coin += money;
+        } else {
+            me_coin += money;
         }
         refreshCoins();
 
 
-        if(round<7) {
-            opeLabel.setText(winName+"获得了本轮游戏的胜利,准备进行下一回合");
-            textHistory.append(winName+"获得了本轮游戏的胜利,准备进行下一回合");
-        }else {
+        if (round < 7) {
+            opeLabel.setText(winName + "获得了本轮游戏的胜利,准备进行下一回合");
+            textHistory.append(winName + "获得了本轮游戏的胜利,准备进行下一回合");
+        } else {
             String str = "";
-            if(left_coin>right_coin) {
+            if (left_coin > right_coin) {
                 //找出最大值
-                if(left_coin>me_coin) {
-                    str=left_name+"玩家拥有最多的硬币，获得了整局比赛的胜利！";
-                }else {
-                    str="您拥有最多的硬币，获得了整局比赛的胜利！";
+                if (left_coin > me_coin) {
+                    str = left_name + "玩家拥有最多的硬币，获得了整局比赛的胜利！";
+                } else {
+                    str = "您拥有最多的硬币，获得了整局比赛的胜利！";
                 }
 
-            }else {
+            } else {
 
-                if(right_coin>me_coin) {
-                    str=right_name+"玩家拥有最多的硬币，获得了整局比赛的胜利！";
-                }else {
-                    str="您拥有最多的硬币，获得了整局比赛的胜利！";
+                if (right_coin > me_coin) {
+                    str = right_name + "玩家拥有最多的硬币，获得了整局比赛的胜利！";
+                } else {
+                    str = "您拥有最多的硬币，获得了整局比赛的胜利！";
                 }
             }
-            textHistory.append(str+"\n");
+            textHistory.append(str + "\n");
         }
 
         left_ready = 0;
@@ -918,12 +895,10 @@ public class GameClient extends JFrame{
         me_ready = 0;
 
 
-
         btnReadyCancel.setVisible(true);
         btnReadyCancel.setEnabled(false);
         btnReady.setVisible(true);
         btnReady.setEnabled(true);
-
 
 
     }
@@ -939,62 +914,66 @@ public class GameClient extends JFrame{
 
     /**
      * 刷新面板
-     * */
+     */
     private void refresh() {
         // TODO Auto-generated method stub
         System.out.println("now is refresh() going");
-        leftLabel.setText(left_name+" ("+left_gamerID+")");
-        rightLabel.setText(right_name+" ("+right_gamerID+")");
-        leftStatusLabel.setText((left_ready==1)?"已准备":" ");
-        rightStatusLabel.setText((right_ready==1)?"已准备":" ");
+        leftLabel.setText(left_name + " (" + left_gamerID + ")");
+        rightLabel.setText(right_name + " (" + right_gamerID + ")");
+        leftStatusLabel.setText((left_ready == 1) ? "已准备" : " ");
+        rightStatusLabel.setText((right_ready == 1) ? "已准备" : " ");
 
         refreshCoins();
 
     }
 
 
-
-
     private void refreshCoins() {
         // TODO Auto-generated method stub
-        meCoinLabel.setText("硬币："+me_coin);
-        leftCoinLabel.setText("硬币："+left_coin);
-        rightCoinLabel.setText("硬币："+right_coin);
+        meCoinLabel.setText("硬币：" + me_coin);
+        leftCoinLabel.setText("硬币：" + left_coin);
+        rightCoinLabel.setText("硬币：" + right_coin);
 
     }
 
     /**
      * 加载图片
-     * */
-    public ImageIcon backAddress(int num, int w,int h) {
-        String url = System.getProperty("user.dir")+"/image/" + num + ".png";
-
+     */
+    public ImageIcon backAddress(int num, int w, int h) {
+        URL resource = this.getClass().getResource("/image/" + num + ".png");
+        String url;
+        if (resource != null) {
+            url = resource.getPath();
+            url += "image/" + num + ".png";
+        } else {
+            url = System.getProperty("user.dir") + "/image/" + num + ".png";
+        }
         ImageIcon icon1 = new ImageIcon(url);
         Image img = icon1.getImage();
-        Image newimg = img.getScaledInstance(w,h,java.awt.Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(newimg);
+        Image newimg = img.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
 
-        return icon;
+        return new ImageIcon(newimg);
     }
 
 
     /**
      * connect
-     * */
-    public boolean connect() throws java.rmi.RemoteException, java.net.MalformedURLException, java.rmi.NotBoundException{
+     */
+    public boolean connect() throws java.rmi.RemoteException, java.net.MalformedURLException, java.rmi.NotBoundException {
         server = (GameServer) java.rmi.Naming.lookup("//" + serverAddr + "/GameServer");
         boolean ans = server.login(my_name, gamer);
         return ans;
     }
+
     protected void disconnect() throws java.rmi.RemoteException {
         if (server != null)
-            server.logout(my_name,my_gamerID);
+            server.logout(my_name, my_gamerID);
     }
 
 
     /**
      * 客户端连接窗口
-     * */
+     */
     class ConnectAction extends AbstractAction {
         public ConnectAction() {
             super("连接");
@@ -1009,11 +988,11 @@ public class GameClient extends JFrame{
                 try {
                     my_name = dlg.getUserName();
                     serverAddr = dlg.getServerAddr();
-                    if(connect()) {
+                    if (connect()) {
                         JOptionPane.showMessageDialog(dlg, "已连接");
                         System.out.println(my_name + " 已连接");
-                        my_gamerID = server.getWhoId(my_name);			//获取gamerID
-                        meLabel.setText(my_name+" （"+my_gamerID+")");  //设置id
+                        my_gamerID = server.getWhoId(my_name);            //获取gamerID
+                        meLabel.setText(my_name + " （" + my_gamerID + ")");  //设置id
                         server.getOtherLogined(gamer);
                         opeLabel.setText("服务器已连接，请准备开始游戏");
                         btnReadyCancel.setVisible(true);
@@ -1021,7 +1000,7 @@ public class GameClient extends JFrame{
                         btnReady.setEnabled(true);
                         btnReadyCancel.setEnabled(false);//出现准备和取消准备按钮
                         round = 0;
-                    }else {
+                    } else {
                         JOptionPane.showMessageDialog(dlg, "重复用户名/人数已达服务器上限");
                     }
 

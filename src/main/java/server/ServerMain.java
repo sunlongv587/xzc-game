@@ -45,7 +45,7 @@ public class ServerMain extends JFrame implements GameServerListener {
 
         try {
             LocateRegistry.createRegistry(1099);
-        }catch(RemoteException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
@@ -89,7 +89,7 @@ public class ServerMain extends JFrame implements GameServerListener {
     private void exit() {
         try {
             server.stop();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.exit(0);
@@ -99,17 +99,17 @@ public class ServerMain extends JFrame implements GameServerListener {
 
     public void serverEvent(GameServerEvent evt) {
         int type = evt.getMsgType();
-        switch(type) { //1=普通消息，2=登入/登出消息，3=准备/取消准备消息
-            case 1:{
-                textArea.append(evt.getMessage()+"\n");
+        switch (type) { //1=普通消息，2=登入/登出消息，3=准备/取消准备消息
+            case 1: {
+                textArea.append(evt.getMessage() + "\n");
                 break;
             }
-            case 2:{
-                loginedLabel.setText("已登入人数:"+evt.getMessage());
+            case 2: {
+                loginedLabel.setText("已登入人数:" + evt.getMessage());
                 break;
             }
-            case 3:{
-                readyedLabel.setText("已准备人数:"+evt.getMessage());
+            case 3: {
+                readyedLabel.setText("已准备人数:" + evt.getMessage());
                 break;
             }
 
@@ -117,7 +117,6 @@ public class ServerMain extends JFrame implements GameServerListener {
 
 
     }
-
 
 
     class StarServerAction extends AbstractAction {
@@ -136,7 +135,7 @@ public class ServerMain extends JFrame implements GameServerListener {
                 textArea.append("服务器启动成功\n");
                 serverStatusLabel.setText("服务器状态:在线");
                 System.out.println("服务器启动成功");
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 textArea.append("服务器启动错误\n");
                 server.removeListense(ServerMain.this);
                 ex.printStackTrace();

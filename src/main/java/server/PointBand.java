@@ -6,7 +6,7 @@ public class PointBand {
     boolean[] inorpass = new boolean[3];//参与与否
     int[] finalPoint = new int[3];//计入小早川后点数
 
-    public PointBand(int winner,boolean[] inorpass,int[] finalPoint) {
+    public PointBand(int winner, boolean[] inorpass, int[] finalPoint) {
         setWinner(winner);
         setInorpass(inorpass);
         setFinalPoint(finalPoint);
@@ -19,6 +19,7 @@ public class PointBand {
     public void setInorpass(boolean[] inorpass) {
         this.inorpass = inorpass;
     }
+
     public void setFinalPoint(int[] finalPoint) {
         this.finalPoint = finalPoint;
     }
